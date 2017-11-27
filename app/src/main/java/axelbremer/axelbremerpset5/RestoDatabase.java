@@ -71,7 +71,7 @@ public class RestoDatabase extends SQLiteOpenHelper{
 
     public void addItem(String name, double price, String url) {
         SQLiteDatabase db = instance.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM 'order' WHERE name = " + name, new String[] {});
+        Cursor cursor = db.rawQuery("SELECT * FROM 'order' WHERE name = '" + name + "'", new String[] {});
 
         if(cursor.getCount() <= 0) {
             ContentValues cv = new ContentValues();
@@ -79,15 +79,16 @@ public class RestoDatabase extends SQLiteOpenHelper{
             cv.put("price", price);
             cv.put("amount", 1);
             cv.put("url", url);
-            db.insert("order", null, cv);
+            db.insert("'order'", null, cv);
         } else {
+            cursor.moveToFirst();
             int idIndex = cursor.getColumnIndex("_id");
             int amountIndex = cursor.getColumnIndex("amount");
             int id = cursor.getInt(idIndex);
             int amount = cursor.getInt(amountIndex);
             ContentValues cv = new ContentValues();
             cv.put("amount", amount + 1);
-            db.update("order", cv, "_id = " + id, new String[] {});
+            db.update("'order'", cv, "_id = " + id, new String[] {});
         }
     }
 }

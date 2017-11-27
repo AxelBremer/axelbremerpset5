@@ -1,6 +1,7 @@
 package axelbremer.axelbremerpset5;
 
 
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +36,7 @@ public class MenuFragment extends ListFragment {
     ArrayAdapter adapter;
     RequestQueue queue;
     MyGlobals myGlob;
+    RestoDatabase db;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,8 @@ public class MenuFragment extends ListFragment {
         category = arguments.getString("category");
 
         Log.d("MENUFRAG", "category: " + category);
+
+        db = RestoDatabase.getInstance(getContext());
 
         myGlob = new MyGlobals(getActivity().getApplicationContext());
 
@@ -83,6 +88,37 @@ public class MenuFragment extends ListFragment {
             }
         });
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        String name = (String) list.get(position);
+
+        Dish dish = getDishByName(name);
+        Double price = dish.getPrice();
+        String url = dish.getUrl();
+
+
+        db.addItem(name, price, url);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        OrderFragment fragment = new OrderFragment();
+        fragment.show(ft, "dialog");
+    }
+
+    private Dish getDishByName(String name) {
+        Dish dish = new Dish();
+
+        for(int i = 0; i < menu.size(); i++) {
+            Dish temp = menu.get(i);
+            if(temp.getName().equals(name)) {
+                dish = temp;
+            }
+        }
+
+        return dish;
     }
 
     @Override

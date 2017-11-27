@@ -6,30 +6,28 @@
     android:orientation="horizontal"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/orderImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight=".25"
-        android:contentDescription="@string/dishimage"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_gravity="left"
+        android:layout_weight="1"
+        android:text="Eten" />
 
     <TextView
         android:id="@+id/priceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="9.0" />
 
     <TextView
         android:id="@+id/amountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_gravity="right"
+        android:layout_weight="1"
+        android:text="3" />
 
 </LinearLayout>
