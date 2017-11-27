@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -93,9 +94,13 @@ public class OrderFragment extends DialogFragment implements View.OnClickListene
                 db.clear();
                 adapter = new RestoAdapter(getActivity().getApplicationContext(), db.selectAll());
                 orderListView.setAdapter(adapter);
+                break;
             case R.id.orderButton:
                 order();
                 db.clear();
+                adapter = new RestoAdapter(getActivity().getApplicationContext(), db.selectAll());
+                orderListView.setAdapter(adapter);
+                break;
         }
     }
 
@@ -118,7 +123,9 @@ public class OrderFragment extends DialogFragment implements View.OnClickListene
                             e.printStackTrace();
                         }
 
+                        String text = "Your order will take " + Integer.toString(duration) + " minutes to complete.";
 
+                        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener()
